@@ -1,22 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TodoService } from './todo.service';
-import { Todo } from './todo.model';
+import { TodoService } from '../services/todo.service';
+import { Todo } from '../features/todo.model';
 import { Observable } from 'rxjs';
-import { TodoListComponent } from './todo-list.component';
-import { TodoFormComponent } from './todo-form.component';
+import { TodoListComponent } from '../features/todo-list.component';
+import { TodoFormComponent } from '../features/todo-form.component';
 
 /**
  * AppComponent (Smart/Container Component)
- * 
+ *
  * This is the ROOT component that orchestrates the entire app.
- * 
+ *
  * Why "Smart Component"?
  * - Knows about services and business logic
  * - Manages state (communicates with TodoService)
  * - Passes data DOWN to dumb components via @Input
  * - Listens to events UP from dumb components via @Output
- * 
+ *
  * This follows the Container/Presentational pattern:
  * Smart (here) → handles logic, data fetching
  * Dumb (children) → pure UI, no service dependencies
@@ -26,7 +26,7 @@ import { TodoFormComponent } from './todo-form.component';
   standalone: true,
   imports: [CommonModule, TodoListComponent, TodoFormComponent],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrl: './app.css',
 })
 export class App implements OnInit {
   todos$!: Observable<Todo[]>;

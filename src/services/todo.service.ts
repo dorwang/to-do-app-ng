@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Todo } from './todo.model';
+import { Todo } from '../features/todo.model';
 
 /**
  * TodoService
@@ -18,7 +18,7 @@ import { Todo } from './todo.model';
  * - Perfect for reactive architecture
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TodoService {
   private readonly STORAGE_KEY = 'todos';
@@ -42,7 +42,7 @@ export class TodoService {
       description,
       completed: false,
       createdAt: new Date(),
-      dueDate
+      dueDate,
     };
 
     const current = this.todosSubject.value;
@@ -55,9 +55,7 @@ export class TodoService {
    */
   updateTodo(id: string, updates: Partial<Todo>): void {
     const current = this.todosSubject.value;
-    const updated = current.map(todo =>
-      todo.id === id ? { ...todo, ...updates } : todo
-    );
+    const updated = current.map((todo) => (todo.id === id ? { ...todo, ...updates } : todo));
     this.todosSubject.next(updated);
   }
 
@@ -66,7 +64,7 @@ export class TodoService {
    * Shorthand for common operation
    */
   toggleTodo(id: string): void {
-    const todo = this.todosSubject.value.find(t => t.id === id);
+    const todo = this.todosSubject.value.find((t) => t.id === id);
     if (todo) {
       this.updateTodo(id, { completed: !todo.completed });
     }
@@ -78,7 +76,7 @@ export class TodoService {
    */
   deleteTodo(id: string): void {
     const current = this.todosSubject.value;
-    this.todosSubject.next(current.filter(todo => todo.id !== id));
+    this.todosSubject.next(current.filter((todo) => todo.id !== id));
   }
 
   /**
@@ -86,7 +84,7 @@ export class TodoService {
    * Useful for edit views
    */
   getTodoById(id: string): Todo | undefined {
-    return this.todosSubject.value.find(todo => todo.id === id);
+    return this.todosSubject.value.find((todo) => todo.id === id);
   }
 
   /**
@@ -95,7 +93,7 @@ export class TodoService {
    */
   clearCompleted(): void {
     const current = this.todosSubject.value;
-    this.todosSubject.next(current.filter(todo => !todo.completed));
+    this.todosSubject.next(current.filter((todo) => !todo.completed));
   }
 
   /**
@@ -117,7 +115,7 @@ export class TodoService {
    * Ensures persistence across browser sessions
    */
   private syncToStorage(): void {
-    this.todosSubject.subscribe(todos => {
+    this.todosSubject.subscribe((todos) => {
       try {
         localStorage.setItem(this.STORAGE_KEY, JSON.stringify(todos));
       } catch (error) {
